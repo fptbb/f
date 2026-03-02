@@ -1,0 +1,40 @@
+name: f
+on: 
+  push: 
+    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      v:
+        description: 'v'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: i
+      run: sudo apt-get update && sudo apt-get install -y nasm
+    - name: a
+      run: nasm -f bin f.s -o f
+    - name: u
+      if: ${{ inputs.v == '' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: f
+        path: f
+    - name: g
+      if: ${{ inputs.v != '' }}
+      uses: softprops/action-gh-release@v2
+      with:
+          tag_name: 'f'
+          name: ''
+          body: 'f'
+          files: |
+            f
+          draft: false
+          prerelease: false
